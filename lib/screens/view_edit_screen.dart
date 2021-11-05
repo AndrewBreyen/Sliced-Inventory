@@ -1,39 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sliced_inventory/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'login_screen.dart';
 import 'package:sliced_inventory/nav_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class ViewEditScreen extends StatefulWidget {
+  const ViewEditScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ViewEditScreenState createState() => _ViewEditScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-    });
-  }
+class _ViewEditScreenState extends State<ViewEditScreen> {
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavBar(),
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("View Edit"),
         centerTitle: true,
       ),
       body: Center(
@@ -48,8 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Image.asset("assets/pie.png", fit: BoxFit.contain),
               ),
               const Text(
-                "Home",
+                "View Edit",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
               ),
             ],
           ),
@@ -58,4 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // the logout function
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
 }
