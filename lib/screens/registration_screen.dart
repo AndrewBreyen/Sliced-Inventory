@@ -19,7 +19,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   // editing Controller
   final firstNameEditingController = TextEditingController();
-  final secondNameEditingController = TextEditingController();
+  final lastNameEditingController = TextEditingController();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
   final confirmPasswordEditingController = TextEditingController();
@@ -55,24 +55,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ));
 
     //second name field
-    final secondNameField = TextFormField(
+    final lastNameField = TextFormField(
         autofocus: false,
-        controller: secondNameEditingController,
+        controller: lastNameEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
           if (value!.isEmpty) {
-            return ("Second Name cannot be Empty");
+            return ("Last Name cannot be Empty");
           }
           return null;
         },
         onSaved: (value) {
-          secondNameEditingController.text = value!;
+          lastNameEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.account_circle),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Second Name",
+          hintText: "Last Name",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -95,7 +95,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           return null;
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          emailEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -163,7 +163,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      color: Colors.orangeAccent,
       child: MaterialButton(
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -179,12 +179,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.red),
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
           onPressed: () {
             // passing this to our root
             Navigator.of(context).pop();
@@ -194,7 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            color: Colors.white,
+            color: Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.all(36.0),
               child: Form(
@@ -209,10 +209,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           "assets/pie.png",
                           fit: BoxFit.contain,
                         )),
+                        const Text(
+                      "Welcome to Sliced Inventory",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const Text("Please sign up for an account"),
                     const SizedBox(height: 45),
                     firstNameField,
                     const SizedBox(height: 20),
-                    secondNameField,
+                    lastNameField,
                     const SizedBox(height: 20),
                     emailField,
                     const SizedBox(height: 20),
@@ -238,7 +244,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) => {postDetailsToFirestore()})
             .catchError((e) {
-          Fluttertoast.showToast(msg: e!.message);
+              Fluttertoast.showToast(msg: e!.message);
         });
       } on FirebaseAuthException catch (error) {
         String errorMessage;
@@ -284,13 +290,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
-    userModel.secondName = secondNameEditingController.text;
+    userModel.lastName = lastNameEditingController.text;
 
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
-    Fluttertoast.showToast(msg: "Account created successfully :) ");
+    Fluttertoast.showToast(msg: "Account Created Successfully");
 
     Navigator.pushAndRemoveUntil(
         (context),

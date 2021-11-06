@@ -1,5 +1,6 @@
 import 'package:sliced_inventory/screens/home_screen.dart';
 import 'package:sliced_inventory/screens/registration_screen.dart';
+import 'package:sliced_inventory/screens/forgot_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // firebase
   final _auth = FirebaseAuth.instance;
-  
+
   // string for displaying the error Message
   String? errorMessage;
 
@@ -85,11 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final loginButton = Material(
       elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.orange,
       child: MaterialButton(
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             signIn(emailController.text, passwordController.text);
           },
@@ -97,16 +97,56 @@ class _LoginScreenState extends State<LoginScreen> {
             "Login",
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+          )),
+    );
+
+    final signUpButton = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.orange,
+      child: MaterialButton(
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RegistrationScreen()));
+          },
+          child: const Text(
+            "Sign Up",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+          )),
+    );
+
+    final forgotPasswordButton = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.orange,
+      child: MaterialButton(
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordScreen()));
+          },
+          child: const Text(
+            "Forgot Password?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           )),
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[300],
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            color: Colors.white,
+            color: Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.all(36.0),
               child: Form(
@@ -121,35 +161,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           "assets/pie.png",
                           fit: BoxFit.contain,
                         )),
+                    const SizedBox(height: 15),
+                    const Text(
+                      "Welcome to Sliced Inventory",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const Text("Please login"),
                     const SizedBox(height: 45),
                     emailField,
                     const SizedBox(height: 25),
                     passwordField,
                     const SizedBox(height: 35),
-                    loginButton,
-                    const SizedBox(height: 15),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          const Text("Don't have an account? "),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegistrationScreen()));
-                            },
-                            child: const Text(
-                              "SignUp",
-                              style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                          )
-                        ]
-                        )
+                          Container(child: loginButton),
+                          Container(child: signUpButton),
+                          Container(child: forgotPasswordButton),
+                        ]),
                   ],
                 ),
               ),
@@ -168,8 +198,8 @@ class _LoginScreenState extends State<LoginScreen> {
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const HomeScreen())),
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const HomeScreen())),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
@@ -195,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
           default:
             errorMessage = "An undefined Error happened.";
         }
-        Fluttertoast.showToast(msg: errorMessage!);
+        Fluttertoast.showToast(msg: errorMessage.toString());
         // ignore: avoid_print
         print(error.code);
       }
