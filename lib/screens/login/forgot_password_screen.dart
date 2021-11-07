@@ -48,7 +48,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
         ));
 
-    //signup button
+    //reset password button
     final sendResetEmailButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -63,7 +63,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             "Send Password Reset Email",
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           )),
     );
 
@@ -98,6 +98,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           "assets/pie.png",
                           fit: BoxFit.contain,
                         )),
+                        const Text(
+                      "Password Reset",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const Text("Please enter your email address and a email contining password reset directions will be sent"),
                     const SizedBox(height: 20),
                     emailField,
                     const SizedBox(height: 20),

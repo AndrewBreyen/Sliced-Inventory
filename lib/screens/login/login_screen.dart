@@ -1,6 +1,6 @@
 import 'package:sliced_inventory/screens/home_screen.dart';
-import 'package:sliced_inventory/screens/registration_screen.dart';
-import 'package:sliced_inventory/screens/forgot_password_screen.dart';
+import 'package:sliced_inventory/screens/login/registration_screen.dart';
+import 'package:sliced_inventory/screens/login/forgot_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

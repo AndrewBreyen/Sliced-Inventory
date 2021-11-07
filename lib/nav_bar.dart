@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sliced_inventory/model/user_model.dart';
-import 'package:sliced_inventory/screens/login_screen.dart';
+import 'package:sliced_inventory/screens/login/login_screen.dart';
 import 'package:sliced_inventory/screens/home_screen.dart';
 import 'package:sliced_inventory/screens/view_edit_screen.dart';
 import 'package:sliced_inventory/screens/send_screen.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({ Key? key }) : super(key: key);
+  const NavBar({Key? key}) : super(key: key);
 
   @override
   _NavBarState createState() => _NavBarState();
@@ -38,7 +38,11 @@ class _NavBarState extends State<NavBar> {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("${loggedInUser.firstName} ${loggedInUser.lastName}"),
+            currentAccountPicture: const CircleAvatar(
+              backgroundImage: AssetImage("assets/pie_greybk.png"),
+            ),
+            accountName:
+                Text("${loggedInUser.firstName} ${loggedInUser.lastName}"),
             accountEmail: Text("${loggedInUser.email}"),
             decoration: const BoxDecoration(
               color: Colors.orange,

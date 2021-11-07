@@ -171,10 +171,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             signUp(emailEditingController.text, passwordEditingController.text);
           },
           child: const Text(
-            "SignUp",
+            "Sign Up",
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           )),
     );
 
@@ -209,7 +209,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           "assets/pie.png",
                           fit: BoxFit.contain,
                         )),
-                        const Text(
+                    const Text(
                       "Welcome to Sliced Inventory",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -237,6 +237,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+
   void signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -244,7 +245,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) => {postDetailsToFirestore()})
             .catchError((e) {
-              Fluttertoast.showToast(msg: e!.message);
+          Fluttertoast.showToast(msg: e!.message);
         });
       } on FirebaseAuthException catch (error) {
         String errorMessage;
@@ -276,6 +277,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       }
     }
   }
+
   postDetailsToFirestore() async {
     // calling our firestore
     // calling our user model
